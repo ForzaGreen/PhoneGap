@@ -126,12 +126,11 @@ function formatText(text) {
 function formatXML(response) {
     var nodes = response.documentElement.childNodes;
     var theHtml = new String("<h4>xml response</h4>")
-     
     // format the xml into html 
     // use a for loop from 0 to nodes.length
     for (var i=0; i<nodes.length-1; i+=2) {
         console.log(nodes[i]);
-        theHtml = theHtml.concat("<h3>", nodes[i].nextSibling.nodeName, ": ", nodes[i].nextSibling.innerHTML, "</h3>");
+        theHtml = theHtml.concat("<h2>", nodes[i].nextSibling.nodeName, ": ", nodes[i].nextSibling.innerHTML, "</h2>");
     }
     // use method x.innerHTML to add theHtml to the main
     document.getElementById("main").innerHTML = theHtml;
@@ -148,7 +147,7 @@ function formatJSON(jsonT) {
     // use a for loop from 0 to nodes.length key.length
     var theHtml = new String("<h4>json response</h4>");
     for(var k in jsonT) {
-        theHtml = theHtml.concat("<h3>", k, ": ", jsonT[k], "</h3>");
+        theHtml = theHtml.concat("<h2>", k, ": ", jsonT[k], "</h2>");
     }
     // use method x.innerHTML to add theHtml to the main
     document.getElementById("main").innerHTML = theHtml;
@@ -186,23 +185,19 @@ function soapDictService() {
         if (ajax.readyState == 4) {
             if (ajax.status == 200) {
                 var documentResponse = ajax.responseXML;
-                var definitions = documentResponse
-                        .getElementsByTagName("Definition");
+                var definitions = documentResponse.getElementsByTagName("Definition");
                 var theHtml = definitions.length === 0 ? "<h4>No definitions found</h4>"
                         : soapformatDefinitions(definitions);
                 document.getElementById("main").innerHTML = theHtml;
             } else {
-                console
-                        .log("Dict service received response code"
-                                + ajax.status)
+                console.log("Dict service received response code" + ajax.status);
                 alert("Unexpected error connecting service");
             }
         }
     }
 
     ajax.open("POST", url);
-    ajax.setRequestHeader("SOAPAction",
-            "\"http://services.aonaware.com/webservices/Define\"");
+    ajax.setRequestHeader("SOAPAction", "\"http://services.aonaware.com/webservices/Define\"");
     ajax.setRequestHeader("Content-Type", "text/xml");
     ajax.send(soapBody);
 
@@ -221,6 +216,17 @@ function soapformatDefinitions(nodelist) {
 
     var theHtml = new String();
     // format the answer in theHtml var
+
+    var theHtml = new String("<h4>Search Word:</h4>")
+    for (var i=0; i<nodelist.length-1; i+=1) {
+        console.log(String(nodelist[i]));
+        console.log(nodelist[i].innerHTML);
+
+        // theHtml = theHtml.concat("<p>", nodelist[i].nextSibling.nodeName, ": ", nodelist[i].nextSibling.innerHTML, "</p>");
+        theHtml = theHtml.concat("<p>", nodelist[i].innerHTML, "</p><br>");
+    }
+    // use method x.innerHTML to add theHtml to the main
+    document.getElementById("main").innerHTML = theHtml;
 
     return theHtml;
 };

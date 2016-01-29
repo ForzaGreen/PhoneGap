@@ -217,5 +217,15 @@ function soapformatDefinitions(nodelist) {
     var theHtml = new String();
     // format the answer in theHtml var
 
+    var theHtml = new String("<h4>Search Word:</h4>")
+    for (var i=0; i<nodelist.length-1; i+=1) {
+        console.log(String(nodelist[i]));
+        console.log(nodelist[i].innerHTML);
+
+        theHtml = theHtml.concat("<p>", nodelist[i].innerHTML, "</p><br>");
+    }
+    // use method x.innerHTML to add theHtml to the main
+    document.getElementById("main").innerHTML = theHtml;
+
     return theHtml;
 };
